@@ -1,8 +1,8 @@
 version: "3.6"
 
 services:
- db:
-    container_name: ${POSTGRES_HOST}
+  db:
+    container_name: ${APPLICATION_NAME}_postgres
     image: postgres:latest
     volumes:
       - db:/var/lib/postgresql/data/
@@ -13,17 +13,19 @@ services:
     expose:
       - ${POSTGRES_PORT}
 
- web:
+  web:
+    container_name: ${APPLICATION_NAME}_web
     build:
       context: .
       dockerfile: _prod/Dockerfile
-    command: uvicorn ${served_fastapi}.main:app --host 0.0.0.0 --port 8000 --reload
+    command: uvicorn ${APPLICATION_NAME}.main:app --host 0.0.0.0 --port 8000 --reload
     volumes:
       - .:/code
     ports:
-      - ${NGINX_EXPOSE}:8000
+      - "8000:8000"
     depends_on:
       - db
+
 
 volumes:
   db:
