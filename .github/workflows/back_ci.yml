@@ -18,8 +18,8 @@ jobs:
         run: |
           python -m venv venv
           . ./venv/bin/activate
-          pip install -r _dev/requirements.txt
-          cd application/tests/
+          pip install -r ./_dev/requirements.dev.txt
+          cd ./application/tests/
           pytest
 
 
