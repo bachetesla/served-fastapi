@@ -16,6 +16,7 @@ jobs:
         run: echo This is just a test
       - name: testing
         run: |
+          cp ./.env.ex ./.env
           python -m venv venv
           . ./venv/bin/activate
           pip install -r ./_dev/requirements.dev.txt
