@@ -1,6 +1,7 @@
 """
 This is db Types
 """
+import threading
 from enum import Enum
 
 from sqlalchemy import create_engine
@@ -16,6 +17,17 @@ class DatabaseBase:
     """
     This is DatabaseBase
     """
+    _instance = None
+    _lock = threading.Lock()
+
+    def __new__(cls, *args, **kwargs):
+        with cls._lock:
+            # another thread could have created the instance
+            # before we acquired the lock. So check that the
+            # instance is still nonexistent.
+            if not cls._instance:
+                cls._instance = super(DatabaseBase, cls).__new__(cls)
+            return cls._instance
 
     def __init__(self):
         self._db: DatabaseTypes = DatabaseTypes.sqlite
@@ -54,7 +66,7 @@ class Postgresql(DatabaseBase):
         engine = create_engine(
             sql_conn
         )
-        return sessionmaker(autocommit=self.auto_commit, autoflush=False, bind=engine)
+        return sessionmaker(autocommit=self.auto_commit, autoflush=False, bind=engine)()
 
 
 class Sqlite3(DatabaseBase):
@@ -76,4 +88,4 @@ class Sqlite3(DatabaseBase):
         engine = create_engine(
             sql_conn, connect_args={"check_same_thread": False}
         )
-        return sessionmaker(autocommit=False, autoflush=False, bind=engine)
+        return sessionmaker(autocommit=False, autoflush=False, bind=engine)()
