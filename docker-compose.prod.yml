@@ -18,7 +18,7 @@ services:
     build:
       context: .
       dockerfile: _prod/Dockerfile
-    command: uvicorn ${APPLICATION_NAME}.main:app --host 0.0.0.0 --port 8000 --workers ${WASGI_WORKERS}
+    command: uvicorn application.main:app --host 0.0.0.0 --port 8000 --workers ${WASGI_WORKERS}
     volumes:
       - .:/code
       - _static:/code/_static

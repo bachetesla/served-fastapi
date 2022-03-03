@@ -1,0 +1,25 @@
+name: 'Tests (CI)'
+
+on:
+  push:
+    branches: [ develop, main ]
+  pull_request:
+    branches: [ develop, main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v1
+      - name: run a test thing
+        run: echo This is just a test
+      - name: testing
+        run: |
+          python -m venv venv
+          . ./venv/bin/activate
+          pip install -r _dev/requirements.txt
+          cd application/tests/
+          pytest
+
+
