@@ -10,10 +10,14 @@ load_dotenv()
 
 DEBUG = True
 
-DATABASE = Postgresql(
-   username=environ.get("POSTGRES_USER"),
-   password=environ.get("POSTGRES_PASSWORD"),
-   host=environ.get("POSTGRES_HOST"),
-   port=environ.get("POSTGRES_PORT"),
-   db=environ.get("POSTGRES_DB"),
+_db = Postgresql(
+    username=environ.get("POSTGRES_USER"),
+    password=environ.get("POSTGRES_PASSWORD"),
+    host=environ.get("POSTGRES_HOST"),
+    port=environ.get("POSTGRES_PORT"),
+    db=environ.get("POSTGRES_DB"),
 ).session_local()
+
+DATABASE = _db[0]
+ENGINE = _db[1]
+

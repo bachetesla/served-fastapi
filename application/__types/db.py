@@ -3,8 +3,10 @@ This is db Types
 """
 import threading
 from enum import Enum
+from typing import Tuple, Any, Union
 
 from sqlalchemy import create_engine
+from sqlalchemy.engine.mock import MockConnection
 from sqlalchemy.orm import sessionmaker
 
 
@@ -57,7 +59,7 @@ class Postgresql(DatabaseBase):
         self.db = db
         self.auto_commit = auto_commit
 
-    def session_local(self) -> sessionmaker:
+    def session_local(self) -> Tuple[sessionmaker, Any]:
         """
         This is session_local generator
         """
@@ -66,7 +68,7 @@ class Postgresql(DatabaseBase):
         engine = create_engine(
             sql_conn
         )
-        return sessionmaker(autocommit=self.auto_commit, autoflush=False, bind=engine)()
+        return sessionmaker(autocommit=self.auto_commit, autoflush=False, bind=engine)(), engine
 
 
 class Sqlite3(DatabaseBase):
@@ -79,7 +81,7 @@ class Sqlite3(DatabaseBase):
         self._db = DatabaseTypes.sqlite
         self.db_file = db_file
 
-    def session_local(self) -> sessionmaker:
+    def session_local(self) -> Tuple[sessionmaker, Any]:
         """
         This is session_local generator
         """
@@ -88,4 +90,5 @@ class Sqlite3(DatabaseBase):
         engine = create_engine(
             sql_conn, connect_args={"check_same_thread": False}
         )
-        return sessionmaker(autocommit=False, autoflush=False, bind=engine)()
+        return sessionmaker(autocommit=False, autoflush=False, bind=engine)(), engine
+
