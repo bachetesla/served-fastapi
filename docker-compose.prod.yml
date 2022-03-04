@@ -5,7 +5,7 @@ services:
     container_name: ${APPLICATION_NAME}_postgres
     image: postgres:latest
     volumes:
-      - db:/var/lib/postgresql/data/
+      - ./db:/var/lib/postgresql/data/
     environment:
       - POSTGRES_USER=${POSTGRES_USER}
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
