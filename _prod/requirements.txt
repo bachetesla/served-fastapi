@@ -1,4 +1,4 @@
-fastapi[all]==0.74.1
+fastapi[all]
 uvicorn[standard]==0.17.5
 python-dotenv
 psycopg2-binary
