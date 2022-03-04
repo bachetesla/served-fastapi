@@ -10,8 +10,32 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
+    # Service containers to run with `runner-job`
+    services:
+      # Label used to access the service container
+      db:
+        # Docker Hub image
+        image: postgres
+        # Provide the password for postgres
+        env:
+          POSTGRES_USER: DB_USER
+          POSTGRES_PASSWORD: DB_PASSWORD
+          POSTGRES_DB: DB_DB
+        # Set health checks to wait until postgres has started
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          # Maps tcp port 5432 on service container to the host
+          - 5432:5432
+
     steps:
+      - uses: actions/setup-python@v3.0.0
       - uses: actions/checkout@v1
+        with:
+          python-version: "3.9"
       - name: run a test thing
         run: echo This is just a test
       - name: testing
@@ -22,5 +46,9 @@ jobs:
           pip install -r ./_dev/requirements.dev.txt
           cd ./application/tests/
           pytest
+        env:
+          POSTGRES_HOST: localhost
+          POSTGRES_PORT: 5432
+
 
 
