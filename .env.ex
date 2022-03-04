@@ -12,3 +12,7 @@ NGINX_EXPOSE=80
 
 # WAS GI
 WASGI_WORKERS=4
+
+# For development
+PGADMIN_DEFAULT_EMAIL=email@example.net
+PGADMIN_DEFAULT_PASSWORD=password
