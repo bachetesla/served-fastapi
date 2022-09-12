@@ -1,7 +1,12 @@
+# Base
 fastapi[all]
-uvicorn[standard]==0.17.5
+uvicorn[standard]
 python-dotenv
 psycopg2-binary
 pydantic
 sqlalchemy
 alembic
+
+# Authentication
+python-jose[cryptography]
+passlib[bcrypt]

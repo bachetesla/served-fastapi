@@ -16,3 +16,6 @@ WASGI_WORKERS=4
 # For development
 PGADMIN_DEFAULT_EMAIL=email@example.net
 PGADMIN_DEFAULT_PASSWORD=password
+
+# For Application
+SECRET_KEY=salambartoueyzibayeman

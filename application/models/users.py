@@ -36,7 +36,7 @@ class User(Base):
         This is going to return the full name!
         :return: fullname
         """
-        return str(self.first_name + self.last_name)
+        return str(self.first_name + " " + self.last_name)
 
     @property
     def age(self):
@@ -45,5 +45,3 @@ class User(Base):
         :return: age
         """
         return (datetime.utcnow() - self.birthday).days / 365
-
-

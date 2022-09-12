@@ -4,11 +4,14 @@ This is config file for the application.
 from os import environ
 from dotenv import load_dotenv
 from .__types.db import Postgresql
+from passlib.context import CryptContext
 
 # Load environment variables from .env file
 load_dotenv()
 
 DEBUG = True
+SECRET_KEY = environ.get("SECRET_KEY", None)
+ALGORITHM = "HS256"
 
 _db = Postgresql(
     username=environ.get("POSTGRES_USER"),
@@ -20,4 +23,5 @@ _db = Postgresql(
 
 DATABASE = _db[0]
 ENGINE = _db[1]
+pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
